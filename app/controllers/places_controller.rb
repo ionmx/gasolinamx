@@ -12,7 +12,6 @@ class PlacesController < ApplicationController
 		places.each do |p|
 			d = Math.sqrt( (latitude - p.latitude) ** 2 + (longitude - p.longitude) ** 2 )
 			distances[d] = p
-			puts "P:#{p.id} D:#{distances[p.id]}"
 		end
 
 		result = []
