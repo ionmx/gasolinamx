@@ -1,0 +1,69 @@
+<html>
+	<head>
+		<title>Simple Client</title>
+		<style>
+			* { font-family: Arial; }
+			table {
+				border:  1px solid #ddd;
+				border-collapse: collapse;
+			}
+			th {
+				border:  1px solid #ddd;
+				border-bottom:  2px solid #000;
+				text-align: left;
+				padding:  0.2em;
+			}
+			td {
+				padding:  0.2em;
+				border:  1px solid #ddd;
+			}
+		</style>
+	</head>
+	<body>
+		<table id="results">
+			<tr>
+				<th>Nombre</th>
+				<th>Distancia</th>
+				<th>Regular</th>
+				<th>Premium</th>
+				<th>Diesel</th>
+				<th>Google Maps</th>
+			</tr>
+		</table>
+		<script>
+			let fmt = new Intl.NumberFormat('es-MX', {
+  				style: 'currency',
+  				currency: 'MXN',
+  				minimumFractionDigits: 2,
+  				maximumFractionDigits: 2
+			});
+
+			navigator.geolocation.getCurrentPosition(getNear)
+
+			function getNear(pos) {
+				let c = pos.coords;
+				let url = 'http://localhost:3000/api/v1/near' 
+				url = url + '?latitude=' + c.latitude + '&longitude=' + c.longitude
+				fetch(url)
+					.then(response => response.json())
+					.then(data => showResults(data))
+			}
+
+			function showResults(data) {
+				let table = document.getElementById("results");
+				let link = document.createElement("LINK")
+				let row;
+				for (var i in data) {
+					row = table.insertRow()
+					row.insertCell(0).innerHTML = data[i].name;
+					row.insertCell(1).innerHTML = data[i].distance + " km";
+					row.insertCell(2).innerHTML = fmt.format(data[i].regular);
+					row.insertCell(3).innerHTML = fmt.format(data[i].premium);
+					row.insertCell(4).innerHTML = fmt.format(data[i].diesel);
+					row.insertCell(5).innerHTML = '<a href="https://maps.google.com/?q=' + data[i].latitude + ',' + data[i].longitude + '">' + data[i].latitude + ',' + data[i].longitude +'</a>'
+
+				}
+			}
+		</script>
+	</body>
+</html>
