@@ -1,6 +1,6 @@
 require 'open-uri'
 namespace :datosabiertos do
-	DATE_ADD = DateTime.now
+  DATE_ADD = DateTime.now
   PLACES_URL = 'https://bit.ly/2V1Z3sm'
   PRICES_URL = 'https://bit.ly/2JNcTha'
   desc "Import and update data from XML"
@@ -36,7 +36,7 @@ namespace :datosabiertos do
 		end
 
 		# IMPORT PRICES
-		doc = Nokogiri::HTML(URI.open('/Users/ion/Hacking/Personal/gasolinamx/lib/tasks/prices.xml')) 
+		doc = Nokogiri::HTML(URI.open(PRICES_URL)) 
 		prices = {}
 
 		doc.xpath("//place").each do |p|
@@ -57,6 +57,12 @@ namespace :datosabiertos do
 		prices.each do |k,v|
 			puts "Updating ID:#{places_hash[k]} PLACE:#{k} REGULAR:#{v['regular']} PREMIUM:#{v['premium']} DIESEL:#{v['diesel']}"
 			if place = Place.find(places_hash[k].to_i)
+				place.last_regular = v['regular']
+				place.last_premium = v['premium']
+				place.last_diesel = v['diesel']
+				place.date_update = DATE_ADD
+				place.save
+
 				price = place.prices.new
 				price.regular = v['regular']
 				price.premium = v['premium']
