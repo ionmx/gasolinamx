@@ -42,8 +42,8 @@
 
 			function getNear(pos) {
 				let c = pos.coords;
-				let url = 'http://localhost:3000/api/v1/near' 
-				url = url + '?latitude=' + c.latitude + '&longitude=' + c.longitude
+				let url = 'http://localhost:3000/api/v1/near?' 
+				url = url + 'latitude=' + c.latitude + '&longitude=' + c.longitude
 				fetch(url)
 					.then(response => response.json())
 					.then(data => showResults(data))
