@@ -227,6 +227,7 @@ DEPENDENCIES
   puma (~> 5.0)
   rack-cors
   rails (~> 7.0.2, >= 7.0.2.3)
+  rexml
   selenium-webdriver
   sprockets-rails
   stimulus-rails
