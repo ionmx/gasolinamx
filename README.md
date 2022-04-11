@@ -34,6 +34,10 @@ Data is loaded from XML files provided by Mexican Government Open Data from this
 
 https://datos.gob.mx/busca/dataset/ubicacion-de-gasolineras-y-precios-comerciales-de-gasolina-y-diesel-por-estacion
 
+There is a task for update places and prices, run:
+
+    rake datosabiertos:update
+
 
 ## Test API
 
