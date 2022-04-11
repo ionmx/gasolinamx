@@ -1,7 +1,14 @@
 class PlacesController < ApplicationController
 	def near
 		distances = {}
-		places = Place.all
+		latitude = params[:latitude].to_f
+		longitude = params[:longitude].to_f
+		lat1 = latitude + 0.08
+		lon1 = longitude - 0.1
+		lat2 = latitude - 0.08
+		lon2 = longitude + 0.1
+
+		places = Place.where("latitude < #{lat1} AND latitude > #{lat2} AND longitude > #{lon1} AND longitude < #{lon2}")
 		latitude = params[:latitude].to_f
 		longitude = params[:longitude].to_f
 		if params[:qty] 
