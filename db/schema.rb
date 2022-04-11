@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_10_004122) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_11_165943) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -26,6 +26,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_10_004122) do
     t.decimal "last_premium", precision: 5, scale: 2
     t.decimal "last_diesel", precision: 5, scale: 2
     t.datetime "date_update"
+    t.index ["latitude"], name: "index_places_on_latitude"
+    t.index ["longitude"], name: "index_places_on_longitude"
   end
 
   create_table "prices", force: :cascade do |t|
