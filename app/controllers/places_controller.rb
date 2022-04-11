@@ -1,14 +1,30 @@
 class PlacesController < ApplicationController
 	def near
-		distances = {}
 		latitude = params[:latitude].to_f
 		longitude = params[:longitude].to_f
-		lat1 = latitude + 0.08
+		
+		lat1 = latitude - 0.08
 		lon1 = longitude - 0.1
-		lat2 = latitude - 0.08
-		lon2 = longitude + 0.1
 
-		places = Place.where("latitude < #{lat1} AND latitude > #{lat2} AND longitude > #{lon1} AND longitude < #{lon2}")
+		lat2 = latitude + 0.08
+		lon2 = longitude + 0.1
+		
+		items = get_items(lat1, lon1, lat2, lon2)
+		render json: items.values.to_json
+	end
+
+	def area
+		p1 = params[:p1].split(',')
+		p2 = params[:p2].split(',')
+		items = get_items(p1[0], p1[1], p2[0], p2[1])
+		render json: items.values.to_json
+	end
+
+	private
+
+	def get_items(lat1, lon1, lat2, lon2)
+		places = Place.where("latitude >= #{lat1} AND longitude >= #{lon1} AND latitude <= #{lat2} AND longitude <= #{lon2}")
+		distances = {}
 		latitude = params[:latitude].to_f
 		longitude = params[:longitude].to_f
 		if params[:qty] 
@@ -52,7 +68,6 @@ class PlacesController < ApplicationController
 			items[v.id] = item
 			break if c >= qty
 		end
-		
-		render json: items.values.to_json
+		return items
 	end
 end
