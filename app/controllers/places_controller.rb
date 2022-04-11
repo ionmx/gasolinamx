@@ -3,11 +3,11 @@ class PlacesController < ApplicationController
 		latitude = params[:latitude].to_f
 		longitude = params[:longitude].to_f
 		
-		lat1 = latitude - 0.08
-		lon1 = longitude + 0.1
+		lat1 = latitude + 0.08
+		lon1 = longitude - 0.1
 
-		lat2 = latitude + 0.08
-		lon2 = longitude -	 0.1
+		lat2 = latitude - 0.08
+		lon2 = longitude + 0.1
 		
 		items = get_items(lat1, lon1, lat2, lon2)
 		render json: items.values.to_json
@@ -23,7 +23,7 @@ class PlacesController < ApplicationController
 	private
 
 	def get_items(lat1, lon1, lat2, lon2)
-		places = Place.where("latitude >= #{lat1} AND longitude <= #{lon1} AND latitude <= #{lat2} AND longitude >= #{lon2}")
+		places = Place.where("latitude <= #{lat1} AND longitude >= #{lon1} AND latitude >= #{lat2} AND longitude <= #{lon2}")
 		distances = {}
 		latitude = params[:latitude].to_f
 		longitude = params[:longitude].to_f
