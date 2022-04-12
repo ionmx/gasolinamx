@@ -30,7 +30,7 @@ class PlacesController < ApplicationController
 		if params[:qty] 
 			qty = params[:qty].to_i
 		else
-			qty = 1000
+			qty = 200
 		end
 
 		places.each do |p|
